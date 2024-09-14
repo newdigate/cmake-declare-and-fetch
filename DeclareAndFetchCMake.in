@@ -8,11 +8,11 @@ macro(DeclareAndFetch name giturl branch cmakeprefixes)
     )
     FetchContent_MakeAvailable("${name}")
     set("${name}_include" "${FETCHCONTENT_BASE_DIR}/${name}-src/src")
-    include_directories("${${name}_include}")
 
     set (_my_list "${cmakeprefixes}")
     string (REPLACE " " ";" _my_list "${_my_list}")
     foreach (cmakeprefix IN LISTS _my_list)
+        include_directories("${FETCHCONTENT_BASE_DIR}/${name}-src/${cmakeprefix}")
         SET(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}${FETCHCONTENT_BASE_DIR}/${name}-src/${cmakeprefix};")
     endforeach()
 
