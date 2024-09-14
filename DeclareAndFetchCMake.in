@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 include(FetchContent)
-macro(DeclareAndFetch name giturl branch cmakeprefix)
+macro(DeclareAndFetch name giturl branch cmakeprefixes)
     FetchContent_Declare("${name}"
             GIT_REPOSITORY "${giturl}"
             GIT_TAG        "${branch}"
@@ -9,5 +9,11 @@ macro(DeclareAndFetch name giturl branch cmakeprefix)
     FetchContent_MakeAvailable("${name}")
     set("${name}_include" "${FETCHCONTENT_BASE_DIR}/${name}-src/src")
     include_directories("${${name}_include}")
-    SET(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}${FETCHCONTENT_BASE_DIR}/${name}-src/${cmakeprefix};")
+
+    # Actual looping.
+    foreach (cmakeprefix IN LISTS cmakeprefixes)
+        message(INFO "_my_list has ${my_entry}")
+        SET(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}${FETCHCONTENT_BASE_DIR}/${name}-src/${cmakeprefix};")
+    endforeach()
+
 endmacro()
