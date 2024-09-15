@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.15)
 
 include(FetchContent)
 macro(DeclareAndFetch name giturl branch cmakeprefixes)
+
+    set(DeclareAndFetch_libraries "${DeclareAndFetch_libraries};${name}")
     message(INFO "-- DeclareAndFetch -- " "${name} ${branch} ${giturl} ${cmakeprefixes}")
     FetchContent_Declare("${name}"
             GIT_REPOSITORY "${giturl}"
@@ -17,6 +19,7 @@ macro(DeclareAndFetch name giturl branch cmakeprefixes)
         message(INFO "\t\t -- DeclareAndFetch -- " "${FETCHCONTENT_BASE_DIR}/${name}-src/${cmakeprefix}")
         #SET(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}${FETCHCONTENT_BASE_DIR}/${name}-src/${cmakeprefix};")
     endforeach()
+
 
 endmacro()
 
