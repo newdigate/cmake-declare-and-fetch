@@ -21,6 +21,7 @@ macro(DeclareAndFetch name giturl branch cmakeprefixes)
 endmacro()
 
 macro(DeclareAndFetchSubLibrary mainlibraryname srcdir)
+    include_directories("${FETCHCONTENT_BASE_DIR}/${mainlibraryname}-src/${srcdir}")
     add_subdirectory("${FETCHCONTENT_BASE_DIR}/${mainlibraryname}-src/${srcdir}")
     message(INFO "\t\t -- DeclareAndFetchSubLibrary -- " "${FETCHCONTENT_BASE_DIR}/${mainlibraryname}-src/${srcdir}")
 endmacro()
