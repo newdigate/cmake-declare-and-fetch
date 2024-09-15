@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 include(FetchContent)
 macro(DeclareAndFetch name giturl branch cmakeprefixes)
+    message(INFO "-- DeclareAndFetch -- " "${name} ${branch} ${giturl} ${cmakeprefixes}")
     FetchContent_Declare("${name}"
             GIT_REPOSITORY "${giturl}"
             GIT_TAG        "${branch}"
@@ -13,7 +14,13 @@ macro(DeclareAndFetch name giturl branch cmakeprefixes)
     string (REPLACE " " ";" _my_list "${_my_list}")
     foreach (cmakeprefix IN LISTS _my_list)
         include_directories("${FETCHCONTENT_BASE_DIR}/${name}-src/${cmakeprefix}")
-        SET(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}${FETCHCONTENT_BASE_DIR}/${name}-src/${cmakeprefix};")
+        message(INFO "\t\t -- DeclareAndFetch -- " "${FETCHCONTENT_BASE_DIR}/${name}-src/${cmakeprefix}")
+        #SET(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}${FETCHCONTENT_BASE_DIR}/${name}-src/${cmakeprefix};")
     endforeach()
 
+endmacro()
+
+macro(DeclareAndFetchSubLibrary mainlibraryname srcdir)
+    add_subdirectory("${FETCHCONTENT_BASE_DIR}/${mainlibraryname}-src/${srcdir}")
+    message(INFO "\t\t -- DeclareAndFetchSubLibrary -- " "${FETCHCONTENT_BASE_DIR}/${mainlibraryname}-src/${srcdir}")
 endmacro()
