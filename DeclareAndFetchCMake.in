@@ -6,10 +6,10 @@ endif ()
 
 include(FetchContent)
 macro(DeclareAndFetch name giturl branch cmakeprefixes)
-    if ("${name}" IN_LIST DeclareAndFetch_libraries_List)
-        #message(INFO "-- DeclareAndFetch -- ${name} is already imported...")
+    if ("**${name}**" IN_LIST DeclareAndFetch_libraries_List)
+        message(INFO "-- DeclareAndFetch -- ${name} is already imported...")
     else ()
-        list(APPEND DeclareAndFetch_libraries_List "${name}")
+        list(APPEND DeclareAndFetch_libraries_List "**${name}**")
         set(DeclareAndFetch_libraries_List ${DeclareAndFetch_libraries_List} CACHE INTERNAL "")
 
         set(DeclareAndFetch_libraries "${DeclareAndFetch_libraries};${name}")
