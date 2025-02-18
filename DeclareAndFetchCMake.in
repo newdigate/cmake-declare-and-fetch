@@ -18,13 +18,17 @@ macro(DeclareAndFetch name giturl branch cmakeprefixes)
                 GIT_REPOSITORY "${giturl}"
                 GIT_TAG        "${branch}"
         )
-        FetchContent_MakeAvailable("${name}")
-        set("${name}_include" "${FETCHCONTENT_BASE_DIR}/${name}-src/src")
+
+        FetchContent_Populate("${name}")
+        string(TOLOWER ${name} name_LOWER)
 
         set (_my_list "${cmakeprefixes}")
         string (REPLACE " " ";" _my_list "${_my_list}")
         foreach (cmakeprefix IN LISTS _my_list)
-            include_directories("${FETCHCONTENT_BASE_DIR}/${name}-src/${cmakeprefix}")
+            set(CURRENT_SRC_PREFIX "${${name_LOWER}_SOURCE_DIR}/${cmakeprefix}")
+            #include(${CURRENT_SRC_PREFIX}/CMakeLists.txt)
+            include_directories("${CURRENT_SRC_PREFIX}")
+            add_subdirectory(${CURRENT_SRC_PREFIX})
             #message(INFO "\t\t -- DeclareAndFetch -- " "${FETCHCONTENT_BASE_DIR}/${name}-src/${cmakeprefix}")
             #SET(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}${FETCHCONTENT_BASE_DIR}/${name}-src/${cmakeprefix};")
         endforeach()
