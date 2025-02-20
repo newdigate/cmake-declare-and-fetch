@@ -48,6 +48,7 @@ macro(DeclareAndFetchNoSource name giturl branch)
                 GIT_REPOSITORY "${giturl}"
                 GIT_TAG        "${branch}"
         )
+        FetchContent_Populate("${name}")
     endif ()
 endmacro()
 
